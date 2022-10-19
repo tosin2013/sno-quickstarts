@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: openshift-virtualization-instance
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "3"
+spec:
+  destination:
+    namespace: openshift-cnv
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/cluster-config/openshift-virtualization/instance
+    repoURL: https://github.com/tosin2013/sno-quickstarts.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
