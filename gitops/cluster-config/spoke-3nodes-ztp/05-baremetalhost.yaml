@@ -1,0 +1,102 @@
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: converged-baremetal-node1
+  namespace: converged-baremetal
+  labels:
+    infraenvs.agent-install.openshift.io: "converged-baremetal"
+  annotations:
+    inspect.metal3.io: disabled
+    bmac.agent-install.openshift.io/hostname: "converged-baremetal-node1"
+spec:
+  online: true
+  # userData:
+  #   name: bmh-userdata
+  #   namespace: sno-ztp
+  bmc:
+    address: redfish-virtualmedia+http://10.0.0.249:8000/redfish/v1/Systems/5bfd0979-d4e8-4f83-a70c-2c6661eccc6c
+    credentialsName: converged-baremetal-node1-secret
+    disableCertificateVerification: true
+  bootMACAddress: 02:04:00:00:01:01
+  automatedCleaningMode: disabled
+  hardwareProfile: libvirt
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: converged-baremetal-node2
+  namespace: converged-baremetal
+  labels:
+    infraenvs.agent-install.openshift.io: "converged-baremetal"
+  annotations:
+    inspect.metal3.io: disabled
+    bmac.agent-install.openshift.io/hostname: "converged-baremetal-node2"
+spec:
+  online: true
+  # userData:
+  #   name: bmh-userdata
+  #   namespace: sno-ztp
+  bmc:
+    address: redfish-virtualmedia+http://10.0.0.249:8000/redfish/v1/Systems/c4f4b45f-00f1-4cf6-aac1-fcc81d96d84e
+    credentialsName: converged-baremetal-node2-secret
+    disableCertificateVerification: true
+  bootMACAddress: 02:04:00:00:01:02
+  automatedCleaningMode: disabled
+  hardwareProfile: libvirt
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: converged-baremetal-node3
+  namespace: converged-baremetal
+  labels:
+    infraenvs.agent-install.openshift.io: "converged-baremetal"
+  annotations:
+    inspect.metal3.io: disabled
+    bmac.agent-install.openshift.io/hostname: "converged-baremetal-node3"
+spec:
+  online: true
+  # userData:
+  #   name: bmh-userdata
+  #   namespace: sno-ztp
+  bmc:
+    address: redfish-virtualmedia+http://10.0.0.249:8000/redfish/v1/Systems/e0ad77da-f10c-4b3d-8283-fe0f0f497059
+    credentialsName: converged-baremetal-node3-secret
+    disableCertificateVerification: true
+  bootMACAddress: 02:04:00:00:01:03
+  automatedCleaningMode: disabled
+  hardwareProfile: libvirt
+---
+# dummy secret - it is not used by required by assisted service and bare metal operator
+apiVersion: v1
+kind: Secret
+metadata:
+  name: converged-baremetal-node1-secret
+  namespace: converged-baremetal
+data:
+  password: Ym9iCg==
+  username: Ym9iCg==
+type: Opaque
+---
+# dummy secret - it is not used by required by assisted service and bare metal operator
+apiVersion: v1
+kind: Secret
+metadata:
+  name: converged-baremetal-node2-secret
+  namespace: converged-baremetal
+data:
+  password: Ym9iCg==
+  username: Ym9iCg==
+type: Opaque
+---
+# dummy secret - it is not used by required by assisted service and bare metal operator
+apiVersion: v1
+kind: Secret
+metadata:
+  name: converged-baremetal-node3-secret
+  namespace: converged-baremetal
+data:
+  password: Ym9iCg==
+  username: Ym9iCg==
+type: Opaque

@@ -1,0 +1,29 @@
+---
+apiVersion: extensions.hive.openshift.io/v1beta1
+kind: AgentClusterInstall
+metadata:
+  name: converged-baremetal
+  namespace: converged-baremetal
+  label:
+    agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+  annotations:
+    agent-install.openshift.io/install-config-overrides: '{"networking":{"networkType":"OVNKubernetes"}}'
+spec:
+  clusterDeploymentRef:
+    name: converged-baremetal
+  imageSetRef:
+    name: openshift-v4.11.20
+  apiVIP: "192.168.11.253"
+  ingressVIP: "192.168.11.252"
+  networking:
+    clusterNetwork:
+      - cidr: "10.128.0.0/14"
+        hostPrefix: 23
+    serviceNetwork:
+      - "172.30.0.0/16"
+    machineNetwork:
+      - cidr: "192.168.11.0/24"
+  provisionRequirements:
+    controlPlaneAgents: 3
+    # workerAgents: 2
+  sshPublicKey: "ssh-rsa REPLACEME"

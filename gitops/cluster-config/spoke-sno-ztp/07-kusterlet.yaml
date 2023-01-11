@@ -1,0 +1,33 @@
+---
+apiVersion: cluster.open-cluster-management.io/v1
+kind: ManagedCluster
+metadata:
+  labels:
+    cloud: hybrid
+    name: sno-baremetal
+  name: sno-baremetal
+spec:
+  hubAcceptsClient: true
+---
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: sno-baremetal
+  namespace: sno-baremetal
+spec:
+  clusterName: sno-baremetal
+  clusterNamespace: sno-baremetal
+  clusterLabels:
+    cloud: hybrid
+  applicationManager:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+  certPolicyController:
+    enabled: true
+  observabilityController:
+      enabled: true
+  iamPolicyController:
+    enabled: true

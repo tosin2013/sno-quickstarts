@@ -1,0 +1,29 @@
+---
+apiVersion: extensions.hive.openshift.io/v1beta1
+kind: AgentClusterInstall
+metadata:
+  name: sno-baremetal
+  namespace: sno-baremetal
+  label:
+    agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+  annotations:
+    agent-install.openshift.io/install-config-overrides: '{"networking":{"networkType":"OVNKubernetes"}}'
+spec:
+  clusterDeploymentRef:
+    name: sno-baremetal
+  imageSetRef:
+    name: openshift-v4.11.20
+  # apiVIP: ""
+  # ingressVIP: ""
+  networking:
+    clusterNetwork:
+      - cidr: "10.128.0.0/14"
+        hostPrefix: 23
+    serviceNetwork:
+      - "172.30.0.0/16"
+    machineNetwork:
+      - cidr: "192.168.11.0/24"
+  provisionRequirements:
+    controlPlaneAgents: 1
+    # workerAgents: 2
+  sshPublicKey: "ssh-rsa REPLACEME"

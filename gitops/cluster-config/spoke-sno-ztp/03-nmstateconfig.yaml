@@ -1,0 +1,29 @@
+apiVersion: agent-install.openshift.io/v1beta1
+kind: NMStateConfig
+metadata:
+  name: sno-baremetal
+  namespace: sno-baremetal
+  labels:
+    cluster-name: sno-baremetal
+spec:
+  config:
+    interfaces:
+      - name: eth0
+        type: ethernet
+        state: up
+        ipv4:
+          address:
+            - ip: 192.168.11.20
+              prefix-length: 24
+          dhcp: false
+          enabled: true
+        ipv6:
+          enabled: false
+    routes:
+      config:
+        - destination: 0.0.0.0/0
+          next-hop-address:  192.168.11.1
+          next-hop-interface: eth0
+  interfaces:
+    - name: "eth0"
+      macAddress: "00:50:56:01:15:94"

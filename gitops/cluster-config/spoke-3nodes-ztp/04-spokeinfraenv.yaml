@@ -1,0 +1,24 @@
+---
+apiVersion: agent-install.openshift.io/v1beta1
+kind: InfraEnv
+metadata:
+  labels:
+    agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+    networkType: static
+  name: converged-baremetal
+  namespace: converged-baremetal
+spec:
+  clusterRef:
+    name: converged-baremetal
+    namespace: converged-baremetal
+  additionalNTPSources:
+    - 2.rhel.pool.ntp.org
+  sshAuthorizedKey: "ssh-rsa CHANGEE"
+  agentLabelSelector:
+    matchLabels:
+      agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+  pullSecretRef:
+    name: assisted-deployment-pull-secret
+  nmStateConfigLabelSelector:
+    matchLabels:
+      cluster-name: converged-baremetal-nmstate

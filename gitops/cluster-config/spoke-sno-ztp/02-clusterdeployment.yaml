@@ -1,0 +1,20 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: sno-baremetal
+  namespace: sno-baremetal
+spec:
+  clusterName: sno-baremetal
+  baseDomain: adetalhouet.ca
+  clusterInstallRef:
+    group: extensions.hive.openshift.io
+    kind: AgentClusterInstall
+    name: sno-baremetal
+    version: v1beta1
+  platform:
+    agentBareMetal:
+      agentSelector:
+        matchLabels:
+          agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+  pullSecretRef:
+    name: assisted-deployment-pull-secret

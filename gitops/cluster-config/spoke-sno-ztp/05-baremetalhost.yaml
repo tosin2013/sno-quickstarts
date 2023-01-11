@@ -1,0 +1,33 @@
+---
+apiVersion: metal3.io/v1alpha1
+kind: BareMetalHost
+metadata:
+  name: sno-baremetal-node1
+  namespace: sno-baremetal
+  labels:
+    infraenvs.agent-install.openshift.io: "sno-baremetal"
+  annotations:
+    inspect.metal3.io: disabled
+    bmac.agent-install.openshift.io/hostname: "sno-baremetal-node1"
+spec:
+  online: true
+  # userData:
+  #   name: bmh-userdata
+  #   namespace: sno-ztp
+  bmc:
+    address: redfish-virtualmedia+http://10.0.0.249:8000/redfish/v1/Systems/7e689341-84c6-4732-a1aa-2979e23385a5
+    credentialsName: sno-secret
+    disableCertificateVerification: true
+  bootMACAddress: 52:54:00:d3:54:af
+  automatedCleaningMode: disabled
+---
+# dummy secret - it is not used by required by assisted service and bare metal operator
+apiVersion: v1
+kind: Secret
+metadata:
+  name: sno-secret
+  namespace: sno-baremetal
+data:
+  password: Ym9iCg==
+  username: Ym9iCg==
+type: Opaque

@@ -1,0 +1,20 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: converged-baremetal
+  namespace: converged-baremetal
+spec:
+  clusterName: converged-baremetal
+  baseDomain: adetalhouet.ca
+  clusterInstallRef:
+    group: extensions.hive.openshift.io
+    kind: AgentClusterInstall
+    name: converged-baremetal
+    version: v1beta1
+  platform:
+    agentBareMetal:
+      agentSelector:
+        matchLabels:
+          agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+  pullSecretRef:
+    name: assisted-deployment-pull-secret

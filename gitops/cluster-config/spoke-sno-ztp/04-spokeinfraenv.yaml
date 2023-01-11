@@ -1,0 +1,24 @@
+---
+apiVersion: agent-install.openshift.io/v1beta1
+kind: InfraEnv
+metadata:
+  labels:
+    agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+    networkType: dhcp
+  name: sno-baremetal
+  namespace: sno-baremetal
+spec:
+  clusterRef:
+    name: sno-baremetal
+    namespace: sno-baremetal
+  additionalNTPSources:
+    - 2.rhel.pool.ntp.org
+  sshAuthorizedKey: "ssh-rsa CHANGEME"
+  agentLabelSelector:
+    matchLabels:
+      agentclusterinstalls.extensions.hive.openshift.io/location: Atlanta
+  pullSecretRef:
+    name: assisted-deployment-pull-secret
+  # nmStateConfigLabelSelector:
+  #   matchLabels:
+  #     cluster-name: sno-baremetal
