@@ -17,6 +17,10 @@ Argo CD applicatioins to configure a SNO OpenShift cluster.
   * OpenShift Data Foundation
   * OpenShift LVM Operator (for ODF)
 
+* RHEL Device Edge Manager
+  * Openshift pipelines
+  * Red Hat Quay 
+
 ## Prerequisites
 * OpenShift 4.11 Cluster installed via the Assisted Installer 
   * [Assisted Installer Scripts](https://github.com/tosin2013/openshift-4-deployment-notes/tree/master/assisted-installer)

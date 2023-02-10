@@ -10,8 +10,8 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.11
-    repoURL: http://gitea.tosins-cloudlabs.com:3000/tosin/openshift-virtualization-gitops.git
+    path: gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.12
+    repoURL:  https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
     automated:
