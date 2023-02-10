@@ -5,7 +5,7 @@ metadata:
   namespace: converged-baremetal
 spec:
   clusterName: converged-baremetal
-  baseDomain: adetalhouet.ca
+  baseDomain: example.com
   clusterInstallRef:
     group: extensions.hive.openshift.io
     kind: AgentClusterInstall

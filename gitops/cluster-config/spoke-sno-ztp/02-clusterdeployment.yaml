@@ -5,7 +5,7 @@ metadata:
   namespace: sno-baremetal
 spec:
   clusterName: sno-baremetal
-  baseDomain: adetalhouet.ca
+  baseDomain: example.com
   clusterInstallRef:
     group: extensions.hive.openshift.io
     kind: AgentClusterInstall

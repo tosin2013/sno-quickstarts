@@ -26,6 +26,11 @@ Argo CD applicatioins to configure a SNO OpenShift cluster.
 
 ## Deploying the SNO Quickstart
 **Fork reposity to your own repo**
+```
+curl -OL https://raw.githubusercontent.com/tosin2013/openshift-demos/master/quick-scripts/deploy-gitea.sh
+chmod +x deploy-gitea.sh
+./deploy-gitea.sh
+```
 
 **Login into the OpenShift Cluster as a cluster-admin user**
 ```bash
