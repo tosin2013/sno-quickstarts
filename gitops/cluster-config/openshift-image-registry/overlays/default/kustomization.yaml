@@ -12,7 +12,7 @@ patches:
     patch: |-
       - op: replace
         path: /spec/resources/requests/storage
-        value: '5Gi'
+        value: '100Gi'
       - op: replace
         path: /spec/accessModes
         value:

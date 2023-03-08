@@ -60,6 +60,7 @@ function acm_deployment()
 
 
 
+
 git clone https://github.com/rh-ecosystem-edge/ztp-pipeline-relocatable.git
 cd ~/ztp-pipeline-relocatable/
 export KUBECONFIG=/root/ztp-pipeline-relocatable/kubeconfig 
