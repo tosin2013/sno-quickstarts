@@ -2,7 +2,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: openshift-container-storage-noobaa
+  name: openshift-image-registry
   namespace: openshift-gitops
 spec:
   destination:
@@ -10,7 +10,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/openshift-container-storage-noobaa/overlays/default
+    path: gitops/cluster-config/openshift-image-registry/overlays/default
     repoURL:  https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
