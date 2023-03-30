@@ -11,7 +11,7 @@ spec:
   project: default
   source:
     path: gitops/cluster-config/odf-lvm-operator/instance/overlay
-    repoURL: http://gitea.tosins-cloudlabs.com:3000/tosin/openshift-virtualization-gitops.git
+    repoURL: https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
     automated:
