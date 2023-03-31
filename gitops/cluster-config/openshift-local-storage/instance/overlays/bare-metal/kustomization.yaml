@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: openshift-local-storage
+
+bases:
+  - ../../base
+
+
+
+patches:
+- target:
+    kind: LocalVolumeDiscovery
+    name:  auto-discover-devices
+  patch: |-
+    apiVersion: local.storage.openshift.io/v1alpha1
+    kind: LocalVolumeDiscovery
+    metadata:
+      name: auto-discover-devices
+      namespace: openshift-local-storage
+    spec:
+      nodeSelector:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - worker-0.example.com
+                  - worker-1.example.com
+                  - worker-2.example.com
+- target:
+    kind: LocalVolumeSet
+    name: lolvol
+  patch: |-
+    apiVersion: local.storage.openshift.io/v1alpha1
+    kind: LocalVolumeSet
+    metadata:
+      name: lolvol
+      namespace: openshift-local-storage
+    spec:
+      nodeSelector:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                  - worker-0.example.com
+                  - worker-1.example.com
+                  - worker-2.example.com
+

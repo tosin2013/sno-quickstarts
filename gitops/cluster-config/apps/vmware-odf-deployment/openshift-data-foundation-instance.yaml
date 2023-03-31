@@ -4,6 +4,8 @@ kind: Application
 metadata:
   name: openshift-data-foundation-instance
   namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "4"
 spec:
   destination:
     namespace: openshift-gitops

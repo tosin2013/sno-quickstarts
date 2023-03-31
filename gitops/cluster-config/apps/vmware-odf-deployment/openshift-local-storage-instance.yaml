@@ -5,14 +5,14 @@ metadata:
   name: openshift-data-foundation-operator
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
     namespace: openshift-gitops
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.11
+    path: gitops/cluster-config/openshift-local-storage/instance/overlays/stable-4.11
     repoURL:  https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
