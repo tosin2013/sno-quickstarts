@@ -110,3 +110,4 @@ spec:
       type: ""
   tls:
     ca: {}
+  kustomizeBuildOptions: '--enable-helm'
