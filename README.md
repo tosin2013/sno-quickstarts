@@ -43,11 +43,17 @@ oc login -u kubeadmin -p <password> https://api.<cluster-name>.<domain>:6443
 
 **run deploy.sh script**
 ```
-cd gitops
+git clone https://github.com/tosin2013/sno-quickstarts.git
+cd sno-quickstarts
 ./deploy.sh
 ```
 
 **add registry to ArgoCD cluster**
+
+### Standard GitOps  deployment
+```
+# oc create -f gitops/apps/acm-gitops-deployment/cluster-config.yaml
+```
 
 ### Configure Cluster
 ### Review Argo CD Applications before deployment 
@@ -68,7 +74,7 @@ cd gitops/apps/standard-sno-deployment/
 ```
 vim gitops/apps/sn-ocp-virt/cluster-config.yaml
 ```
-**Apply Configuration to clutser**
+**Apply Configuration to cluster**
 ```
 oc create -f gitops/apps/sn-ocp-virt/cluster-config.yaml
 ```
@@ -77,7 +83,7 @@ oc create -f gitops/apps/sn-ocp-virt/cluster-config.yaml
 ```
 vim gitops/apps/standard-sno-deployment/cluster-config.yaml
 ```
-**Apply Configuration to clutser**
+**Apply Configuration to cluster**
 ```
 oc create -f gitops/apps/standard-sno-deployment/cluster-config.yaml
 ```
