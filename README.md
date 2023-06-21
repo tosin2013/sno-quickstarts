@@ -50,7 +50,8 @@ cd sno-quickstarts
 
 **add registry to ArgoCD cluster**
 
-### Standard GitOps  deployment
+### Standard GitOpsdeployment
+*RHACM 2.8*
 ```
 # oc create -f gitops/apps/acm-gitops-deployment/cluster-config.yaml
 ```
