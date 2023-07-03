@@ -9,7 +9,7 @@ bases:
 patchesJson6902:
   - target:
       group: operators.coreos.com
-      version: v1alpha1
+      version:  operators.coreos.com/v1alpha1
       kind: Subscription
       name: odf-lvm-operator
       namespace: openshift-storage
