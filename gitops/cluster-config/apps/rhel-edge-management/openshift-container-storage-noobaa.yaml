@@ -5,7 +5,7 @@ metadata:
   name: openshift-container-storage-noobaa
   namespace: openshift-gitops
   annotations:
-    argocd.argoproj.io/sync-wave: "4"
+    argocd.argoproj.io/sync-wave: "3"
 spec:
   destination:
     namespace: openshift-gitops
