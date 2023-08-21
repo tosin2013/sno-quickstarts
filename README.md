@@ -44,7 +44,7 @@ oc login -u kubeadmin -p <password> https://api.<cluster-name>.<domain>:6443
 **run deploy.sh script**
 ```
 git clone https://github.com/tosin2013/sno-quickstarts.git
-cd sno-quickstarts
+cd sno-quickstarts/gitops
 ./deploy.sh
 ```
 
