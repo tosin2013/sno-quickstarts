@@ -1,0 +1,1 @@
+Installs the *beta* channel version of the Pulp Operator

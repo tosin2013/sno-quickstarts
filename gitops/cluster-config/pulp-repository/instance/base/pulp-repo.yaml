@@ -1,0 +1,61 @@
+apiVersion: repo-manager.pulpproject.org/v1beta2
+kind: Pulp
+metadata:
+  name: edge-pulp-repo
+  namespace: pulp-repository
+spec:
+  container_auth_private_key_name: container_auth_private_key.pem
+  no_log: false
+  container_auth_public_key_name: container_auth_public_key.pem
+  image_pull_policy: IfNotPresent
+  image_web_version: stable
+  mount_trusted_ca: false
+  image_web: quay.io/pulp/pulp-web
+  deployment_type: pulp
+  image_version: stable
+  container_token_secret: container-auth
+  storage_type: S3
+  object_storage_s3_secret: edge-deployment-pulp-s3
+  ingress_type: Route
+  route_host: edge-deployment-pulp-repository.apps.ocp4.example.com
+  web:
+    replicas: 1
+    resource_requirements:
+      limits:
+        cpu: 2000m
+        memory: 2Gi
+      requests:
+        cpu: 2000m
+        memory: 2Gi
+  content:
+    gunicorn_timeout: 90
+    gunicorn_workers: 2
+    replicas: 1
+    resource_requirements:
+      limits:
+        cpu: 800m
+        memory: 1Gi
+      requests:
+        cpu: 150m
+        memory: 256Mi
+  pulp_settings:
+    allowed_export_paths:
+      - /tmp
+    allowed_import_paths:
+      - /tmp
+    telemetry: false
+  api:
+    gunicorn_timeout: 90
+    gunicorn_workers: 2
+    replicas: 1
+  image: quay.io/pulp/pulp-minimal
+  worker:
+    replicas: 3
+    resource_requirements:
+      limits:
+        cpu: 800m
+        memory: 1Gi
+      requests:
+        cpu: 150m
+        memory: 256Mi
+

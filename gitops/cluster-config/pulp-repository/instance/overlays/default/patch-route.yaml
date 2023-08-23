@@ -1,0 +1,3 @@
+- op: replace
+  path: /spec/route_host
+  value: edge-deployment-pulp-repository.apps.edge-testing.sandbox1008.opentlc.com
