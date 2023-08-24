@@ -33,11 +33,11 @@ spec:
     replicas: 1
     resource_requirements:
       limits:
-        cpu: 800m
+        cpu: 2000m
         memory: 1Gi
       requests:
-        cpu: 150m
-        memory: 256Mi
+        cpu: 2000m
+        memory: 1Gi
   pulp_settings:
     allowed_export_paths:
       - /tmp
@@ -50,7 +50,7 @@ spec:
     replicas: 1
   image: quay.io/pulp/pulp-minimal
   worker:
-    replicas: 3
+    replicas: 4
     resource_requirements:
       limits:
         cpu: 2000m
