@@ -1,0 +1,33 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+bases:
+  - ../resources
+
+resources:
+  - crunchy-postgres-app.yaml
+
+patches:
+  - target:
+      kind: PostgresCluster
+      name: example
+    patch: |-
+      - op: replace
+        path: /metadata/namespace
+        value: database-project
+      - op: replace
+        path: /metadata/name
+        value: example-database
+      - op: replace
+        path: /spec/users/0/databases/0
+        value: exampledb
+      - op: replace
+        path: /spec/users/0/name
+        value: exampleuser
+  - target:
+      kind: Namespace
+      name: my-project
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: database-project

@@ -1,0 +1,35 @@
+apiVersion: postgres-operator.crunchydata.com/v1beta1
+kind: PostgresCluster
+metadata:
+  name: example
+  namespace: database-project
+spec:
+  backups:
+    pgbackrest:
+      image: >-
+        registry.developers.crunchydata.com/crunchydata/crunchy-pgbackrest:ubi8-2.45-3
+      repos:
+        - name: repo1
+          volume:
+            volumeClaimSpec:
+              accessModes:
+                - ReadWriteOnce
+              resources:
+                requests:
+                  storage: 1Gi
+  image: registry.developers.crunchydata.com/crunchydata/crunchy-postgres:ubi8-15.3-3
+  instances:
+    - dataVolumeClaimSpec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+      name: ''
+      replicas: 1
+  port: 5432
+  postgresVersion: 15
+  users:
+    - databases:
+        - coffeeshopdb
+      name: coffeshopadmin

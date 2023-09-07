@@ -49,6 +49,7 @@ oc apply -k  https://github.com/tosin2013/sno-quickstarts/gitops/cluster-config/
 ```
 
 **Deploy kafka instance**
+
 *Option 1:*
 ```
 git clone https://github.com/tosin2013/sno-quickstarts.git
