@@ -81,5 +81,5 @@ oc create -k gitops/cluster-config/amq-streams-operator/instance/overlays
 
 *Option 2: Deploy with no changes*
 ```
-
+oc create -k https://github.com/tosin2013/sno-quickstarts/gitops/cluster-config/amq-streams-operator/instance/overlays
 ```
