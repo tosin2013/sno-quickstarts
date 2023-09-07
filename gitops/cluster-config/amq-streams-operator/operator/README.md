@@ -34,9 +34,52 @@ resources:
   - github.com/redhat-cop/gitops-catalog/amq-streams-operator/operator/overlays/<channel>?ref=main
 ```
 
-## For Develoeprs
+Testing kafka clsuter instance:
+```
+kustomize build gitops/cluster-config/amq-streams-operator/instance/overlays 
+```
+
+## For Developers
+
+**Deploy AMQ Operator**
 ```
 oc login --token=sha256~YOURTOKEN --server=https://api.ocp4.exampl.com:6443
 oc new-project my-project 
+oc apply -k  https://github.com/tosin2013/sno-quickstarts/gitops/cluster-config/amq-streams-operator/operator/overlays/stable
+```
+
+**Deploy kafka instance**
+*Option 1:*
+```
+git clone https://github.com/tosin2013/sno-quickstarts.git
+cd sno-quickstarts
+kustomize build gitops/cluster-config/amq-streams-operator/instance/overlays
+# Update the kafka instance with the namespace and name 
+vim gitops/cluster-config/amq-streams-operator/instance/overlays/kustomization.yaml
+  - target:
+      kind: Kafka
+      name: kafka-cluster
+    patch: |-
+      - op: replace
+        path: /metadata/namespace
+        value: my-new-project
+      - op: replace
+        path: /metadata/name
+        value: kafka-new-cluster
+  - target:
+      kind: Namespace
+      name: my-project
+    patch: |-
+      - op: replace
+        path: /metadata/name
+        value: my-new-project
+
+kustomize build gitops/cluster-config/amq-streams-operator/instance/overlays | oc apply -f -
+or
+oc create -k gitops/cluster-config/amq-streams-operator/instance/overlays
+```
+
+*Option 2: Deploy with no changes*
+```
 
 ```
