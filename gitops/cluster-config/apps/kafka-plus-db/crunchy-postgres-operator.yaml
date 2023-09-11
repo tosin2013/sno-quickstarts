@@ -1,0 +1,23 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: crunchy-postgres-operator
+  namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "1"
+spec:
+  destination:
+    namespace: developer-space
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: gitops/cluster-config/crunchy-postgres/operator/overlays/v5
+    repoURL:  https://github.com/tosin2013/sno-quickstarts.git
+    targetRevision: main
+  syncPolicy:
+    automated:
+      prune: false
+      selfHeal: false
+    syncOptions:
+    - CreateNamespace=true
