@@ -8,7 +8,7 @@ metadata:
     argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
-    namespace: developer-space
+    namespace: database-project
     server: https://kubernetes.default.svc
   project: default
   source:
