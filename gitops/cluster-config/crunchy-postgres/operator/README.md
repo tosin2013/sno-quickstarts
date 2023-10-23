@@ -36,7 +36,7 @@ resources:
 oc apply -k https://github.com/tosin2013/sno-quickstarts/gitops/cluster-config/crunchy-postgres/operator/overlays/v5
 ```
 
-**Deploy kafka instance**
+**Deploy Postgres instance**
 *Option 1:*
 ```
 git clone https://github.com/tosin2013/sno-quickstarts.git
