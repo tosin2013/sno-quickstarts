@@ -2,7 +2,7 @@ apiVersion: automationhub.ansible.com/v1beta1
 kind: AutomationHub
 metadata:
   name: automation-hub
-  namespace: ansible-automation-platform
+  namespace: aap
 spec:
   route_tls_termination_mechanism: Edge
   ingress_type: Route
