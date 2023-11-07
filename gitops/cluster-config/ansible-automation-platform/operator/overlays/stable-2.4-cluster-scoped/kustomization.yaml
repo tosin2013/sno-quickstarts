@@ -2,7 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: ansible-automation-platform
+namespace: aap
 
 resources:
   - ../../base
@@ -20,5 +20,5 @@ patches:
       group: operators.coreos.com
       kind: Subscription
       name: ansible-automation-platform
-      namespace: ansible-automation-platform
+      namespace: aap
       version: v1alpha1
