@@ -9,7 +9,7 @@ metadata:
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: aap-operator
+  name: ansible-automation-platform-operator
   namespace: aap
 spec:
   targetNamespaces:
@@ -23,6 +23,6 @@ metadata:
 spec:
   channel: patch-me
   installPlanApproval: Automatic
-  name: aap-operator
+  name: ansible-automation-platform-operator
   source: redhat-operators
   sourceNamespace: openshift-marketplace
