@@ -10,7 +10,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/apps/acm-gitops-deployment
+    path: gitops/cluster-config/apps/aap-instance
     repoURL: https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
