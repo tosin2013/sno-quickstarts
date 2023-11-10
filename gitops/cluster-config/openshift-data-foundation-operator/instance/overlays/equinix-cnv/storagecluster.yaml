@@ -1,0 +1,46 @@
+apiVersion: ocs.openshift.io/v1
+kind: StorageCluster
+metadata:
+  annotations:
+    cluster.ocs.openshift.io/local-devices: 'true'
+    uninstall.ocs.openshift.io/cleanup-policy: delete
+    uninstall.ocs.openshift.io/mode: graceful
+  name: ocs-storagecluster
+  namespace: openshift-storage
+spec:
+  storageDeviceSets:
+    - config: {}
+      count: 3
+      dataPVCTemplate:
+        metadata: {}
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: '1'
+          storageClassName: lolvol
+          volumeMode: Block
+        status: {}
+      name: ocs-deviceset-lolvol
+      placement: {}
+      preparePlacement: {}
+      replica: 1
+      resources: {}
+  encryption:
+    kms: {}
+  mirroring: {}
+  monDataDirHostPath: /var/lib/rook
+  managedResources:
+    cephBlockPools: {}
+    cephCluster: {}
+    cephConfig: {}
+    cephDashboard: {}
+    cephFilesystems: {}
+    cephObjectStoreUsers: {}
+    cephObjectStores: {}
+  arbiter: {}
+  nodeTopologies: {}
+  externalStorage: {}
+  version: 4.13.0
+  flexibleScaling: true
