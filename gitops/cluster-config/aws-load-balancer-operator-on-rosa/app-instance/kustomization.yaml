@@ -1,0 +1,13 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - echoserver-namespace.yaml
+  - anyuid.yaml
+  - echoserver-deployment.yaml
+  - echoserver-service.yaml
+  - echoserver-ingress.yaml
+  - echoserver-service-nlb.yaml
+
+
