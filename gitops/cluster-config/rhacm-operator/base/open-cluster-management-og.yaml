@@ -1,7 +1,8 @@
 apiVersion: operators.coreos.com/v1
 kind: OperatorGroup
 metadata:
-  name: aws-load-balancer-operator
-  namespace: aws-load-balancer-operator
+  name: open-cluster-management
+  namespace: open-cluster-management
 spec:
-  upgradeStrategy: Default
+  targetNamespaces:
+    - open-cluster-management
