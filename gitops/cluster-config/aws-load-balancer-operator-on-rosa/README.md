@@ -14,6 +14,11 @@ kustomize build gitops/cluster-config/aws-load-balancer-operator-on-rosa/operato
 oc apply -k gitops/cluster-config/aws-load-balancer-operator-on-rosa/operator/overlays 
 ```
 
+**Using oc apply**
+```
+oc apply -k https://github.com/tosin2013/sno-quickstarts/tree/main/gitops/cluster-config/aws-load-balancer-operator-on-rosa/operator/overlays
+```
+
 ### Deploy a Load Balancer Instance
 
 **Kustomize example**
