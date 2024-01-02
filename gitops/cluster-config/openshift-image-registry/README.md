@@ -24,7 +24,7 @@ oc apply -k openshift-image-registry/overlays/provider
 Or, without cloning:
 
 ```
-oc apply -k https://github.com/tosin2013/gitops/cluster-config/openshift-image-registry/overlays/provider
+oc apply -k https://github.com/tosin2013/sno-quickstarts/gitops/cluster-config/openshift-image-registry/overlays/default
 ```
 
 As part of a different overlay in your own GitOps repo:
@@ -34,5 +34,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 bases:
-  - github.com/tosin2013/gitops/cluster-config/openshift-image-registry/overlays/provider?ref=main
+  - github.com/tosin2013/sno-quickstarts/gitops/cluster-config/openshift-image-registry/overlays/default?ref=main
 ```
