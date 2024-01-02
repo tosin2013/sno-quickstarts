@@ -24,7 +24,7 @@ oc apply -k openshift-data-foundation-operator/config-helpers/node-labeler/overl
 Or, without cloning:
 
 ```
-oc apply -k https://github.com/redhat-cop/gitops-catalog/openshift-data-foundation-operator/config-helpers/node-labeler/overlays/default
+oc apply -k https://github.com/tosin2013/gitops/cluster-config/openshift-data-foundation-operator/config-helpers/node-labeler/overlays/default
 ```
 
 As part of a different overlay in your own GitOps repo:
@@ -34,5 +34,5 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
 bases:
-  - github.com/redhat-cop/gitops-catalog/openshift-data-foundation-operator/config-helpers/node-labeler/overlays/default?ref=main
+  - github.com/tosin2013/gitops/cluster-config/openshift-data-foundation-operator/config-helpers/node-labeler/overlays/default?ref=main
 ```

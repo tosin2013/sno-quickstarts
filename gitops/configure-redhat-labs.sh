@@ -38,9 +38,21 @@ function configure_storage(){
     wait-for-me $PODNANE
 
 
-    PODNANE=$(oc get pods -n openshift-storage | grep lvm-operator-controller-manager | awk '{print $1}')
+    PODNANE=$(oc get pods -n openshift-local-storage | grep local-storage-operator- | awk '{print $1}')
     wait-for-me $PODNANE
 
+
+    array=( lab-worker-0 lab-worker-1 lab-worker-2 )
+    for i in "${array[@]}"
+    do
+        echo "$i"
+        oc label node $i node-role.kubernetes.io/infra=""
+        oc label node $i cluster.ocs.openshift.io/openshift-storage=""
+        #oc adm taint node $i node.ocs.openshift.io/storage="true":NoSchedule # if you only want these nodes to run storage pods
+    done
+
+    oc patch configs.imageregistry.operator.openshift.io/cluster -p '{"spec":{"nodeSelector":{"node-role.kubernetes.io/infra": ""}}}' --type=merge
+    oc patch -n openshift-ingress-operator ingresscontroller/default --patch '{"spec":{"replicas": 3}}' --type=merge
 
     oc create -k gitops/cluster-config/openshift-local-storage/instance/overlays/demo-redhat
     oc create -k gitops/cluster-config/openshift-data-foundation-operator/instance/overlays/equinix-cnv
@@ -49,7 +61,7 @@ function configure_storage(){
 configure_storage
 
 function configure_registry(){
-    oc create -k  gitops/cluster-config/openshift-image-registry/overlays/vsphere
+    oc create -k  gitops/cluster-config/openshift-image-registry/overlays/default
 }
 
 configure_registry
