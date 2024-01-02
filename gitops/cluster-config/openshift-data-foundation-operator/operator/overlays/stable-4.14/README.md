@@ -1,1 +1,1 @@
-Installs the *stable-4.13* channel version of the OpenShift Data Foundation Operator
+Installs the *stable-4.14* channel version of the OpenShift Data Foundation Operator
