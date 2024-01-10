@@ -64,6 +64,10 @@ function configure_registry(){
     oc create -k  gitops/cluster-config/openshift-image-registry/overlays/default
 }
 
+
+# oc patch storageclass ocs-storagecluster-cephfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+# oc patch storageclass ocs-storagecluster-ceph-rbd -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
+
 configure_registry
 
 oc create -k gitops/cluster-config/openshift-gitops
