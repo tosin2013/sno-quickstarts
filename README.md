@@ -50,7 +50,7 @@ cd sno-quickstarts/gitops
 
 **add registry to ArgoCD cluster**
 
-### Standard GitOpsdeployment
+### Standard GitOps deployment
 *RHACM 2.8*
 ```
 # oc create -f gitops/apps/acm-gitops-deployment/cluster-config.yaml
@@ -58,7 +58,7 @@ cd sno-quickstarts/gitops
 
 ### Configure Cluster
 ### Review Argo CD Applications before deployment 
-**SNO (Single Node Openshift) witn OpenShift Virtualization**
+**SNO (Single Node Openshift) with OpenShift Virtualization**
 > you will have to make changes to the repos in the yaml files you will also need to remove any files that are not needed for your deployment.
 ```
 cd gitops/cluster-config/apps/sno-ocp-virt
@@ -70,7 +70,7 @@ cd gitops/cluster-config/apps/sno-ocp-virt
 cd gitops/apps/standard-sno-deployment/
 ```
 
-#### SNO (Single Node Openshift) witn OpenShift Virtualization
+#### SNO (Single Node Openshift) with OpenShift Virtualization
 **Change Repo path**
 ```
 vim gitops/apps/sn-ocp-virt/cluster-config.yaml
