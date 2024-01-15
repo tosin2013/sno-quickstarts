@@ -30,3 +30,6 @@ kind: Kustomization
 resources:
   - https://github.com/redhat-cop/gitops-catalog/devspaces/operator/overlays/<channel>?ref=main
 ```
+
+Link: 
+* https://access.redhat.com/solutions/7011001
