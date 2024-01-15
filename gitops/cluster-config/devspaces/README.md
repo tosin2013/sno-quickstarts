@@ -32,4 +32,5 @@ resources:
 ```
 
 Link: 
-* https://access.redhat.com/solutions/7011001
+* Enabling multiple workspace running instance under a single devspace user
+  * https://access.redhat.com/solutions/7011001
