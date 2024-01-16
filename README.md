@@ -52,7 +52,7 @@ cd sno-quickstarts/gitops
 
 ### Developer Enviornment w(OpenShift DevSpaces & AAP)
 ```
-# oc create -f developer-env/cluster-config.yaml
+# oc create -f apps/developer-env/cluster-config.yaml
 ```
 
 ### Configure Cluster
