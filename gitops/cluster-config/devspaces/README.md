@@ -30,3 +30,7 @@ kind: Kustomization
 resources:
   - https://github.com/redhat-cop/gitops-catalog/devspaces/operator/overlays/<channel>?ref=main
 ```
+
+Link: 
+* Enabling multiple workspace running instance under a single devspace user
+  * https://access.redhat.com/solutions/7011001

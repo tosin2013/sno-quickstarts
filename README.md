@@ -50,10 +50,9 @@ cd sno-quickstarts/gitops
 
 **add registry to ArgoCD cluster**
 
-### Standard GitOps deployment
-*RHACM 2.8*
+### Developer Enviornment w(OpenShift DevSpaces & AAP)
 ```
-# oc create -f gitops/apps/acm-gitops-deployment/cluster-config.yaml
+# oc create -f apps/developer-env/cluster-config.yaml
 ```
 
 ### Configure Cluster
