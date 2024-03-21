@@ -1,1 +1,1 @@
-Installs the *stable-4.11* channel version of the OpenShift Local Storage Operator
+Installs the *stable-4.14* channel version of the OpenShift Local Storage Operator
