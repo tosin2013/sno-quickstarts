@@ -69,11 +69,11 @@ fi
 function configure_storage(){
     oc apply -k gitops/cluster-config/openshift-local-storage/operator/overlays/stable-4.15
     oc apply -k gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.15
-    sleep 10s 
+    sleep 25s 
 
     PODNANE=$(oc get pods -n openshift-storage | grep ocs-operator | awk '{print $1}')
     wait-for-me $PODNANE openshift-storage
-
+    sleep 25s 
 
     PODNANE=$(oc get pods -n openshift-local-storage | grep local-storage-operator- | awk '{print $1}')
     wait-for-me $PODNANE openshift-local-storage
