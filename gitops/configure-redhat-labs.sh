@@ -72,7 +72,7 @@ function configure_storage(){
     sleep 10s 
 
     PODNANE=$(oc get pods -n openshift-storage | grep ocs-operator | awk '{print $1}')
-    wait-for-me $PODNANE openshift-storag
+    wait-for-me $PODNANE openshift-storage
 
 
     PODNANE=$(oc get pods -n openshift-local-storage | grep local-storage-operator- | awk '{print $1}')
