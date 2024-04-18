@@ -1,123 +1,131 @@
-#!/bin/bash 
+#!/bin/bash
 
-CONFIGURE_INFRA_NODES=true
-CONFIGURE_STORAGE=false
-CONFIGURE_REGISTRY=false
+# Constants
 DEFAULT_STORAGE_CLASS_NAME="ocs-storagecluster-ceph-rbd"
+REPO_URL="https://github.com/tosin2013/sno-quickstarts.git"
+KUSTOMIZE_INSTALL_SCRIPT="https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
 
+# Print script usage information
+usage() {
+    echo "Usage: $0 [options]"
+    echo "Options:"
+    echo "  --configure-infra-nodes    Configure infra nodes"
+    echo "  --configure-storage        Configure storage"
+    echo "  -h, --help                 Display this help and exit"
+}
+
+# Parse command line options
+while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
+  --configure-infra-nodes )
+    CONFIGURE_INFRA_NODES=true
+    ;;
+  --configure-storage )
+    CONFIGURE_STORAGE=true
+    ;;
+  -h | --help )
+    usage
+    exit
+    ;;
+esac; shift; done
+if [[ "$1" == '--' ]]; then shift; fi
+
+# Check if logged in to OpenShift
 if ! oc whoami &> /dev/null; then
     echo "Not logged in to OpenShift. Exiting..."
     exit 1
 fi
 
-if [ ! -d $HOME/sno-quickstarts ];
-then 
-    cd $HOME
-    git clone https://github.com/tosin2013/sno-quickstarts.git
-fi 
-
-if [ ! -f /usr/local/bin/kustomize ];
-then 
-    curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  | bash
-    sudo mv kustomize /usr/local/bin
-    kustomize
-fi
-
-cd $HOME/sno-quickstarts/
-
-
-function wait-for-me(){
-    while [[ $(oc get pods $1  -n $2 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
+# Helper function to wait for Pods to become Ready
+wait_for_pod() {
+    while [[ $(oc get pods $1 -n $2 -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}') != "True" ]]; do
         sleep 1
     done
-
 }
 
-function configure_argocd(){
-    echo "Configuring ArgoCD"
-    oc create namespace openshift-gitops
-    oc create -k $HOME/sno-quickstarts/gitops/cluster-config/openshift-gitops || exit $?
-    sleep 30s
-    oc apply -k $HOME/sno-quickstarts/gitopscluster-config/openshift-gitops
-    PODNAME=$(oc get pods -n openshift-gitops | grep openshift-gitops-repo-server | awk '{print $1}')
-    wait-for-me ${PODNAME} openshift-gitops
-}
-if ! oc get ns openshift-gitops &> /dev/null; then
-    configure_argocd
+# Clone necessary Git repository if it doesn't exist
+if [ ! -d "$HOME/sno-quickstarts" ]; then
+    git clone $REPO_URL "$HOME/sno-quickstarts"
 fi
 
-function configure_infranodes(){
+# Install Kustomize if not already installed
+if [ ! -f /usr/local/bin/kustomize ]; then
+    curl -s "$KUSTOMIZE_INSTALL_SCRIPT" | bash
+    sudo mv kustomize /usr/local/bin
+fi
 
-    array=( lab-worker-0 lab-worker-1 lab-worker-2 )
-    for i in "${array[@]}"
-    do
-        echo "$i"
-        oc label node $i node-role.kubernetes.io/infra=""
-        oc label node $i cluster.ocs.openshift.io/openshift-storage=""
-        #oc adm taint node $i node.ocs.openshift.io/storage="true":NoSchedule # if you only want these nodes to run storage pods
+# Configuration functions
+configure_argocd() {
+    echo "Checking if ArgoCD is already running..."
+    # Check if the ArgoCD repo server pod is in a ready state
+    local pod_ready=$(oc get pods -l app.kubernetes.io/name=openshift-gitops-repo-server -n openshift-gitops -o 'jsonpath={..status.conditions[?(@.type=="Ready")].status}' | grep True)
+
+    if [ "$pod_ready" == "True" ]; then
+        echo "ArgoCD is already running. Skipping configuration."
+        return
+    fi
+
+    echo "Configuring ArgoCD..."
+    oc create namespace openshift-gitops 2>/dev/null || true
+    oc create -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-gitops" || exit $?
+
+    # Wait for ArgoCD CRDs to be ready
+    echo "Waiting for ArgoCD CRDs to be available..."
+    until oc get crd/argocds.argoproj.io &> /dev/null; do
+        echo "Waiting for ArgoCD CRDs to become available..."
+        sleep 10
     done
+    echo "ArgoCD CRDs are available."
 
-    oc patch configs.imageregistry.operator.openshift.io/cluster -p '{"spec":{"nodeSelector":{"node-role.kubernetes.io/infra": ""}}}' --type=merge
-    oc patch ingresscontroller/default -n  openshift-ingress-operator  --type=merge -p '{"spec":{"nodePlacement": {"nodeSelector": {"matchLabels": {"node-role.kubernetes.io/infra": ""}},"tolerations": [{"effect":"NoSchedule","key": "node-role.kubernetes.io/infra","value": "reserved"},{"effect":"NoExecute","key": "node-role.kubernetes.io/infra","value": "reserved"}]}}}'
-    oc patch -n openshift-ingress-operator ingresscontroller/default --patch '{"spec":{"replicas": 3}}' --type=merge
+    # Apply ArgoCD Configuration
+    oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-gitops"
+    local pod_name=$(oc get pods -n openshift-gitops | grep openshift-gitops-repo-server | awk '{print $1}')
+    wait_for_pod "$pod_name" "openshift-gitops"
 }
 
-if [ "$CONFIGURE_INFRA_NODES" = true ] ; then
-    configure_infranodes
-fi
 
-function configure_storage(){
-    oc apply -k gitops/cluster-config/openshift-local-storage/operator/overlays/stable-4.15
-    oc apply -k gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.15
-    sleep 10s 
-
-    PODNANE=$(oc get pods -n openshift-storage | grep ocs-operator | awk '{print $1}')
-    wait-for-me $PODNANE openshift-storag
-
-
-    PODNANE=$(oc get pods -n openshift-local-storage | grep local-storage-operator- | awk '{print $1}')
-    wait-for-me $PODNANE openshift-local-storage
-
-    oc create -k gitops/cluster-config/openshift-local-storage/instance/overlays/demo-redhat
-    oc create -k gitops/cluster-config/openshift-data-foundation-operator/instance/overlays/equinix-cnv
+configure_infranodes() {
+    local nodes=("lab-worker-0" "lab-worker-1" "lab-worker-2")
+    for node in "${nodes[@]}"; do
+        oc label node "$node" node-role.kubernetes.io/infra=""
+        oc label node "$node" cluster.ocs.openshift.io/openshift-storage=""
+    done
+    oc patch configs.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"nodeSelector":{"node-role.kubernetes.io/infra": ""}}}'
+    oc patch ingresscontroller/default -n openshift-ingress-operator --type=merge -p '{"spec":{"nodePlacement": {"nodeSelector": {"matchLabels": {"node-role.kubernetes.io/infra": ""}},"tolerations": [{"effect":"NoSchedule","key": "node-role.kubernetes.io/infra","value": "reserved"},{"effect":"NoExecute","key": "node-role.kubernetes.io/infra","value": "reserved"}]}}}'
 }
 
-if [ "$CONFIGURE_STORAGE" = true ] ; then
-    configure_storage
-    if [ -z "$DEFAULT_STORAGE_CLASS_NAME" ]; then
-        oc patch storageclass ocs-storagecluster-ceph-rbd -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-    else 
-        oc patch storageclass ocs-storagecluster-cephfs -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-    fi
-fi
-
-function configure_registry(){
-    oc create -k  gitops/cluster-config/openshift-image-registry/overlays/default
+configure_storage() {
+    oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-local-storage/operator/overlays/stable-4.15"
+    oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.15"
+    sleep 25s
+    pod_name=$(oc get pods -n openshift-local-storage | grep local-storage-operator- | awk '{print $1}')
+    wait_for_pod "$pod_name" "openshift-local-storage"
+    local pod_name=$(oc get pods -n openshift-storage | grep ocs-operator | awk '{print $1}')
+    wait_for_pod "$pod_name" "openshift-storage"
+    oc create -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-local-storage/instance/overlays/demo-redhat"
+    oc create -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-data-foundation-operator/instance/overlays/equinix-cnv"
 }
-if [ "$CONFIGURE_REGISTRY" = true ] ; then
-    configure_registry
-fi
+
+# Configuration Checks and Setup
+configure_argocd
+[ "$CONFIGURE_INFRA_NODES" = true ] && configure_infranodes
+[ "$CONFIGURE_STORAGE" = true ] && configure_storage
+#[ "$CONFIGURE_REGISTRY" = true ] && configure_registry
 
 
-# Change to the directory where the YAML files are located
-cd $HOME/sno-quickstarts/gitops/apps
 
-# Get a list of directories
-dirs=$(find . -maxdepth 1 -type d -not -path '.')
-
-# Create a menu for the user to select from
-select dir in $dirs; do
-    if [ -n "$dir" ]; then
-        # Remove './' from the beginning of the $dir variable
-        dir=${dir#./}
-        echo "Applying configuration in $dir..."
-        
-        # Run 'oc apply -f' on the YAML file in the selected directory
-        echo "Deploying $dir..." 
-        oc apply -f "$dir/cluster-config.yaml"
-    else
-        echo "Invalid selection, please try again."
-    fi
+# User interaction for applying configurations
+cd "$HOME/sno-quickstarts/gitops/apps"
+options=("Exit" $(find . -maxdepth 1 -type d -not -path '.'))
+select dir in "${options[@]}"; do
+    case "$dir" in
+        "Exit")
+            echo "Exiting..."
+            break
+            ;;
+        *)
+            dir=${dir#./}
+            echo "Applying configuration in $dir..."
+            oc apply -f "$dir/cluster-config.yaml"
+            ;;
+    esac
 done
-
-
