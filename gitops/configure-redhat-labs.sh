@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x 
 
 # Constants
 DEFAULT_STORAGE_CLASS_NAME="ocs-storagecluster-ceph-rbd"
@@ -96,6 +97,8 @@ configure_infranodes() {
 configure_storage() {
     oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-local-storage/operator/overlays/stable-4.15"
     oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.15"
+    echo "Waiting for ODF Operator to be ready..."
+    echo "sleeping for 25s..."
     sleep 25s
     pod_name=$(oc get pods -n openshift-local-storage | grep local-storage-operator- | awk '{print $1}')
     wait_for_pod "$pod_name" "openshift-local-storage"
