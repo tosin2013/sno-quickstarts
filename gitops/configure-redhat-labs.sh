@@ -66,7 +66,7 @@ configure_argocd() {
 
     echo "Configuring ArgoCD..."
     oc create namespace openshift-gitops 2>/dev/null || true
-    oc create -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-gitops" || exit $?
+    oc create -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-gitops"
 
     # Wait for ArgoCD CRDs to be ready
     echo "Waiting for ArgoCD CRDs to be available..."
