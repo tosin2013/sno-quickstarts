@@ -22,6 +22,6 @@ spec:
     cephToolbox: {}
   mirroring: {}
   multiCloudGateway:
-    dbStorageClassName: odf-lvm-vgmcg
+    dbStorageClassName: lvm-vgmcg
     reconcileStrategy: standalone
   #version: 4.11.0
