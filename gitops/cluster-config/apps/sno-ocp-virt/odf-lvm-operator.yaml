@@ -10,7 +10,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/odf-lvm-operator/operator/overlay/stable-4.15
+    path: gitops/cluster-config/odf-lvm-operator/operator/overlays/stable-4.15
     repoURL: https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
