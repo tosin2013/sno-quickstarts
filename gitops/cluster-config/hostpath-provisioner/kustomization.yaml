@@ -1,5 +1,0 @@
-resources:
-- sdb-machine-config.yaml
-- 50-machine-hostpath.yaml
-- hostpath-provisioner.yaml
-- hostpath-storageclass.yaml

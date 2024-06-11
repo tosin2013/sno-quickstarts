@@ -2,20 +2,23 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: odf-lvm-instance
+  name: chrony-config
   namespace: openshift-gitops
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
 spec:
   destination:
-    namespace: openshift-gitops
+    namespace: openshift-cnv
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/odf-lvm-operator/instance/overlays
+    path: gitops/cluster-config/chrony-config
     repoURL: https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
     automated:
-      prune: false
-      selfHeal: false
+      prune: true
+      selfHeal: true
     syncOptions:
     - CreateNamespace=true
+

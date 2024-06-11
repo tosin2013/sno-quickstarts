@@ -1,0 +1,65 @@
+apiVersion: machineconfiguration.openshift.io/v1
+kind: MachineConfig
+metadata:
+  labels:
+    machineconfiguration.openshift.io/role: master
+  name: 98-var-hpvolumes
+spec:
+  config:
+    ignition:
+      version: 3.1.0
+    systemd:
+      units:
+      - contents: |
+          [Unit]
+          Description=Make File System on /dev/vdb
+          DefaultDependencies=no
+          BindsTo=dev-vdb.device
+          After=dev-vdb.device var.mount
+          Before=systemd-fsck@dev-vdb.service
+
+          [Service]
+          Type=oneshot
+          RemainAfterExit=yes
+          ExecStart=-/bin/bash -c "/bin/rm -rf /var/hpvolumes*"
+          ExecStart=/usr/lib/systemd/systemd-makefs xfs /dev/vdb
+          TimeoutSec=0
+
+          [Install]
+          WantedBy=var-hpvolumes.mount
+        enabled: true
+        name: systemd-mkfs@dev-vdb.service
+      - contents: |
+          [Unit]
+          Description=Mount /dev/vdb to /var/hpvolumes
+          Before=local-fs.target
+          Requires=systemd-mkfs@dev-vdb.service
+          After=systemd-mkfs@dev-vdb.service
+
+          [Mount]
+          What=/dev/vdb
+          Where=/var/hpvolumes
+          Type=xfs
+          Options=defaults,prjquota
+
+          [Install]
+          WantedBy=local-fs.target
+        enabled: true
+        name: var-hpvolumes.mount
+      - contents: |
+          [Unit]
+          Description=Restore recursive SELinux security contexts
+          DefaultDependencies=no
+          After=var-hpvolumes.mount
+          Before=crio.service
+
+          [Service]
+          Type=oneshot
+          RemainAfterExit=yes
+          ExecStart=/sbin/restorecon -R /var/hpvolumes
+          TimeoutSec=0
+
+          [Install]
+          WantedBy=multi-user.target graphical.target
+        enabled: true
+        name: restorecon-var-hpvolumes.service
