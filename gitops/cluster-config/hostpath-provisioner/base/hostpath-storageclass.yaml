@@ -1,7 +1,11 @@
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
-  name: hostpath-provisioner 
+  name: hostpath-provisioner
+  annotations:
+    description: Provides RWO and RWOP Filesystem & Block volumes
+    storageclass.kubernetes.io/is-default-class: 'true'
+    storageclass.kubevirt.io/is-default-virt-class: 'true' 
 provisioner: kubevirt.io/hostpath-provisioner
 reclaimPolicy: Delete 
 volumeBindingMode: WaitForFirstConsumer
