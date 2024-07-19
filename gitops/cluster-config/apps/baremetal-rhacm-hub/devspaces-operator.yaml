@@ -2,23 +2,22 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: spoke-sno-ztp
+  name: devspaces-operator
   namespace: openshift-gitops
   annotations:
     argocd.argoproj.io/sync-wave: "1"
 spec:
   destination:
-    namespace: sno-baremetal
+    namespace: openshift-gitops
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/spoke-sno-ztp
-    repoURL: https://github.com/tosin2013/sno-quickstarts.git
+    path: gitops/cluster-config/devspaces/operator/overlays/stable
+    repoURL:  https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:
     automated:
       prune: false
       selfHeal: false
     syncOptions:
-    - CreateNamespace=false
-
+    - CreateNamespace=true
