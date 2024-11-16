@@ -1,0 +1,1 @@
+Installs the *stable-3.13* channel version of the Quay Registry Operator
