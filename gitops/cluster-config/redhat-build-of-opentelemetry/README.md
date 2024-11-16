@@ -21,7 +21,7 @@ oc apply -k redhat-build-of-opentelemetry/operator/overlays/<channel>
 Or, without cloning:
 
 ```
-oc apply -k https://github.com/redhat-cop/gitops-catalog/redhat-build-of-opentelemetry/operator/overlays/<channel>
+oc apply -k https://github.com/tosin2013/sno-quickstarts/gitops/cluster-config/redhat-build-of-opentelemetry/operator/overlays/stable
 ```
 
 As part of a different overlay in your own GitOps repo:
