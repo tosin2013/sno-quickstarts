@@ -12,7 +12,7 @@ spec:
     server: https://kubernetes.default.svc
   project: default
   source:
-    path: gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.15
+    path: gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.17
     repoURL:  https://github.com/tosin2013/sno-quickstarts.git
     targetRevision: main
   syncPolicy:

@@ -95,8 +95,8 @@ configure_infranodes() {
 }
 
 configure_storage() {
-    oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-local-storage/operator/overlays/stable-4.16"
-    oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.16"
+    oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-local-storage/operator/overlays/stable-4.17"
+    oc apply -k "$HOME/sno-quickstarts/gitops/cluster-config/openshift-data-foundation-operator/operator/overlays/stable-4.17"
     echo "Waiting for ODF Operator to be ready..."
     echo "sleeping for 25s..."
     sleep 25s
