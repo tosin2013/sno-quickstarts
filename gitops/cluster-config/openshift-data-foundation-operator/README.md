@@ -14,7 +14,7 @@ The current *overlays* available are for the following channels:
 * [stable-4.15](operator/overlays/stable-4.15)
 * [stable-4.16](operator/overlays/stable-4.16)
 * [stable-4.17](operator/overlays/stable-4.17)
-* 
+* [stable-4.18](operator/overlays/stable-4.18)
 ## Usage
 
 If you have cloned the `gitops-catalog` repository, you can install the OpenShift Data Foundation operator based on the overlay of your choice by running from the root `gitops-catalog` directory
