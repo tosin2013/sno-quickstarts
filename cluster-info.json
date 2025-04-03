@@ -1,0 +1,14 @@
+{
+  "openshift": {
+    "cluster_url": "https://api.ansible-cluster.sandbox2641.opentlc.com:6443",
+    "cluster_name": "ansible-cluster",
+    "user": "system:admin",
+    "project": ""
+  },
+  "host": {
+    "hostname": "hypervisor",
+    "ip_address": "147.28.196.39",
+    "os": "Linux",
+    "architecture": "x86_64"
+  }
+}
