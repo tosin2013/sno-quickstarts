@@ -5,5 +5,5 @@ metadata:
   namespace: aap
 spec:
   hub:
-    file_storage_storage_class: gp3-csi
+    file_storage_storage_class: ocs-storagecluster-cephfs
  
